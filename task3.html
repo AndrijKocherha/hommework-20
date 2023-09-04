@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="css/nullstyle.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<title>task3</title>
+	</head>
+	<body>
+		<main class="page">
+			<div class="page__container">
+				<div class="task">
+					<div class="task__condition text">
+						Задача 4. На сторінці міститься певна кількість кнопок і інпутів. Підраховувати загальну кількість кліків окремо на кнопках і окремо на інпутах.
+					</div>
+				</div>
+				<form class="form-inputs" action="">
+					<input type="text" />
+					<button type="button">Кнопка</button>
+					<button type="button">Кнопка</button>
+
+					<input type="text" />
+					<button type="button">Кнопка</button>
+					<input type="text" />
+
+					<button type="button">Кнопка</button>
+					<button type="button">Кнопка</button>
+
+					<input type="text" />
+				</form>
+				<div class="button-count">кількість кліків на кнопку = <span></span></div>
+				<div class="input-count">кількість кліків на інпут = <span></span></div>
+			</div>
+		</main>
+		<script>
+			class ClicksCounts {
+				constructor(buttonCountBlock, inputCountBlock) {
+					this.buttonCountBlock = buttonCountBlock
+					this.inputCountBlock = inputCountBlock
+				}
+				clickCount(event) {
+					console.log(event.target.tagName)
+					if (event.target.tagName === "BUTTON") {
+						this.buttonClickCount++
+						this.buttonCountBlock.textContent = this.buttonClickCount
+					}
+					if (event.target.tagName === "INPUT") {
+						this.inputClickCount++
+						this.inputCountBlock.innerText = this.inputClickCount
+					}
+				}
+				clickListen() {
+					this.buttonClickCount = 0
+					this.inputClickCount = 0
+					document.addEventListener("click", this.clickCount.bind(this))
+				}
+			}
+			window.onload = function () {
+				let amountOfClicks = new ClicksCounts(document.querySelector(".button-count span"), document.querySelector(".input-count span"))
+				amountOfClicks.clickListen()
+			}
+		</script>
+	</body>
+</html>

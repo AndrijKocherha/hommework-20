@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="css/nullstyle.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<title>task0</title>
+		<style></style>
+	</head>
+	<body>
+		<main class="page">
+			<div class="page__container">
+				<div class="task">
+					<div class="task__condition text">
+						Задача 1. Сяючі зорі. Вказана кількість зірочок повинна з’являтися у випадковій частині екрану. Кожна зірка (це екземпляр класу Star) з певним кроком і
+						інтервалом збільшується від мінімального до максимального розміру. Як тільки досягнути максимального розміру зірочка повинна з’являтися у іншій випадковій
+						позиції.
+					</div>
+				</div>
+				<div class="space"></div>
+			</div>
+		</main>
+		<script>
+			class Stars {
+				constructor(startSize, maxScale, time, containerSelector) {
+					this.startSize = startSize
+					this.maxScale = maxScale
+					this.containerSelector = containerSelector
+					this.time = time
+				}
+				randValue(minValue, maxValue) {
+					return minValue + Math.floor(Math.random() * (maxValue - minValue + 1))
+				}
+				render() {
+					let startDiv = document.createElement("div")
+					startDiv.className = "space__star"
+					startDiv.style.cssText = `
+                  position: absolute;
+                  border-radius: 50%;
+                  top:  ${this.randValue(0, window.innerHeight) - 10}px;
+                  left: ${this.randValue(0, window.innerWidth) - 10}px;
+                  background-color: yellow;
+                  width: ${this.startSize}px;
+                  height: ${this.startSize}px;
+               `
+					this.startDiv = startDiv
+					//if (this.containerSelector) {
+					this.containerSelector.append(startDiv)
+					return startDiv
+					//}
+				}
+				createStarrySpace(startsCount) {
+					if (this.containerSelector) {
+						for (let i = 0; i < startsCount; i++) {
+							let star = this.render()
+							setInterval(() => {
+								star.style.transition = "transform 1000ms"
+								star.style.transform = `scale(${this.maxScale})`
+								setTimeout(() => {
+									star.style.transition = "transform 0ms"
+									star.style.top = `${this.randValue(0, window.innerHeight) - 10}px`
+									star.style.left = `${this.randValue(0, window.innerWidth) - 10}px`
+									star.style.transform = "scale(1)"
+								}, 900)
+							}, this.time)
+						}
+					}
+				}
+			}
+
+			window.onload = function () {
+				let star = new Stars(2, 3, 4000, document.querySelector(".space"))
+				star.createStarrySpace(100)
+			}
+		</script>
+	</body>
+</html>

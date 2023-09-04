@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="css/nullstyle.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<title>task1</title>
+		<style></style>
+	</head>
+	<body>
+		<main class="page">
+			<div class="page__container">
+				<div class="task">
+					<div class="task__condition text">
+						Задача 2. Байрактар. З верхньої частини екрану у випадковій позиції по горизонталі з’являються танки, які їдуть вниз. При кліку на танк він вибухає і зникає з
+						екрану.
+					</div>
+					<div class="polygon"></div>
+				</div>
+			</div>
+		</main>
+		<script>
+			class Tank {
+				constructor(tankSrc, explosionSrc, tankTime) {
+					this.tankSrc = tankSrc
+					this.explosionSrc = explosionSrc
+					this.tankTime = tankTime
+				}
+				randValue(minValue, maxValue) {
+					return minValue + Math.floor(Math.random() * (maxValue - minValue + 1))
+				}
+				tankClick() {
+					this.tankImg.src = this.explosionSrc
+					setTimeout(() => {
+						this.tankImg.remove()
+					}, 500)
+				}
+				render(containerSeletor) {
+					let tankImg = document.createElement("img")
+					tankImg.setAttribute("src", this.tankSrc)
+					tankImg.style.cssText = `
+			               position: absolute;
+			               width: 100px;
+			               transition: all ${this.tankTime}ms linear;
+                        top: -10%;
+			               left: ${this.randValue(0, window.innerWidth - 100)}px;
+			      `
+					this.tankImg = tankImg
+					containerSeletor.append(tankImg)
+					tankImg.addEventListener("click", this.tankClick.bind(this))
+					//clearTank() {
+					setTimeout(() => {
+						this.tankImg.remove()
+					}, this.tankTime)
+					return this.tankImg
+				}
+			}
+
+			//=============================================
+			class TanksGame {
+				constructor(tankSrc, explosionSrc, tankTime, container) {
+					this.tankSrc = tankSrc
+					this.explosionSrc = explosionSrc
+					this.tankTime = tankTime
+					this.container = container
+				}
+				playGame() {
+					if (this.container) {
+						let intervalId = setInterval(() => {
+							this.tank = new Tank(this.tankSrc, this.explosionSrc, this.tankTime).render(this.container) // це танк
+							setTimeout(() => {
+								this.tank.style.top = `${window.innerHeight}px`
+							}, 10)
+						}, 1000)
+
+						setTimeout(() => {
+							clearInterval(intervalId)
+						}, 10000)
+					}
+				}
+			}
+			//=============================================
+
+			window.onload = function () {
+				let tankGame = new TanksGame("img/tank.png", "img/explosion.jpg", 5000, document.querySelector(".polygon"))
+				tankGame.playGame()
+			}
+		</script>
+	</body>
+</html>

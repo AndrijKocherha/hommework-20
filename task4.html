@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="css/nullstyle.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<title>task4</title>
+	</head>
+	<body>
+		<main class="page">
+			<div class="page__container">
+				<div class="task">
+					<div class="task__condition text"></div>
+				</div>
+				<div class="search-employee">
+					<div class="search-employee__input-block">
+						<label for="nameId">Iмя працівника</label>
+						<input id="nameId" placeholder="Я шукаю ..." type="text" />
+					</div>
+					<!--<div class="search-employee__list"></div>-->
+				</div>
+				<script>
+					const employeeList = ["Іванов І.І", "Петров П.П", "Скрипка С.П", "Гончаренко Г.О", "Лозенко І.В", "Гордон Д.Ю"]
+					class SearchEmployee {
+						constructor(employeeList, input) {
+							this.employeeList = employeeList
+							this.input = input
+							this.spanArr = []
+						}
+						onInput(event) {
+							let inputValue = this.input.value.toLowerCase()
+							let newSearch = new CustomEvent("emploeeSearcher", {
+								detail: {
+									//codeOfWord: inputValue.codePointAt(inputValue.length - 1),
+									word: inputValue[inputValue.length - 1],
+								},
+							})
+							this.input.dispatchEvent(newSearch)
+						}
+						onEmploeeSearcher(event) {
+							for (const employee of this.spanArr) {
+								if (event.target.value.length - 1 >= 0) {
+									if (event.detail.word === employee.innerText[event.target.value.length - 1].toLowerCase()) {
+										//this.listBlock.append(employee)
+										console.log(this.listBlock)
+									} else {
+										employee.style.display = "none"
+									}
+								} else {
+									employee.style.display = "block"
+								}
+							}
+						}
+						render() {
+							this.employeeList.sort()
+							let listBlock = document.createElement("div")
+							listBlock.classList.add("search-employee__list")
+							listBlock.style.cssText = `
+					         display: inline-flex;
+					         flex-direction: column;
+					         gap: 10px;
+					         padding: 30px 20px ;
+					      `
+							for (const employee of this.employeeList) {
+								let span = document.createElement("span")
+								span.innerText = employee
+								listBlock.append(span)
+								this.listBlock = listBlock
+								this.spanArr.push(span)
+							}
+							this.input.parentElement.after(listBlock)
+							this.input.addEventListener("input", this.onInput.bind(this))
+							this.input.addEventListener("emploeeSearcher", this.onEmploeeSearcher.bind(this))
+						}
+					}
+					window.onload = function () {
+						let emoloyee = new SearchEmployee(employeeList, document.getElementById("nameId"))
+						emoloyee.render()
+					}
+				</script>
+			</div>
+		</main>
+	</body>
+</html>

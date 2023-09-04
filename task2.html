@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="css/nullstyle.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<title>task2</title>
+	</head>
+	<body>
+		<main class="page">
+			<div class="page__container">
+				<div class="task">
+					<div class="task__condition text">
+						Задача 3. На формі вводять 7 числових значень (вік, зріст, вага, заробітна плата, стаж, номер відділу, порядковий номер). Додати подію обробки події click на
+						форму і якщо клік на внутрішньому input, то автоматично замінювати значення його на 0. Використати делегування
+					</div>
+				</div>
+				<form class="form-inputs" action="">
+					<input placeholder="Age" type="number" />
+					<input placeholder="Height" type="number" />
+					<input placeholder="Weight" type="number" />
+					<input placeholder="Salary" type="number" />
+					<input placeholder="Expereance" type="number" />
+					<input placeholder="Branch number" type="number" />
+					<input id="serialNumId" placeholder="Serial number" type="number" />
+				</form>
+			</div>
+		</main>
+		<script>
+			class FormInf {
+				constructor(form) {
+					this.form = form
+				}
+				fillForm(event) {
+					event.target.value = 0
+				}
+				clickForm() {
+					this.form.addEventListener("click", this.fillForm.bind(this))
+				}
+			}
+			window.onload = function () {
+				let fornInformation = new FormInf(document.querySelector(".form-inputs"))
+				fornInformation.clickForm()
+			}
+		</script>
+	</body>
+</html>
